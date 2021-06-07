@@ -1,3 +1,5 @@
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://github.com/brysonreece/feded/raw/main/public/img/logo.svg" width="400"></a></p>
+
 ## About FedEd
 
 FedEd is a lightning fast API server application that returns the latest school year data for the U.S. Public School system via Data.gov, all packaged up nicely.
