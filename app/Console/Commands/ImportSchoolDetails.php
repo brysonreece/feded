@@ -339,24 +339,16 @@ class ImportSchoolDetails extends Command
     {
         $this->line("Fetching data from {$this->url}...");
 
-        /*
-            // Commented out for debugging
+        $data = $this->fetch($this->url);
 
-            $data = $this->fetch($this->url);
-
-            if (! $data) {
-                $this->warning('No data records found.');
-                return 1;
-            }
-        */
+        if (! $data) {
+            $this->warning('No data records found.');
+            return 1;
+        }
 
         $this->info('Finished fetching data, attempting to parse records...');
 
-        /* Debugging */
-        // $csv = $this->parseCsvString($data);
-        $csv = Csv::createFromPath(storage_path('app/schools.csv'));
-        $csv->setHeaderOffset(0);
-
+        $csv = $this->parseCsvString($data);
         $records = $this->parseCsvRecords($csv, self::FIELDS);
 
         $this->info('Parsed data records, attempting to import...');
@@ -400,7 +392,7 @@ class ImportSchoolDetails extends Command
 
     public function parseCsvString(string $data)
     {
-        $csv = Csv::createFromPath(storage_path('app/schools.csv'));
+        $csv = Csv::createFromString($data);
         $csv->setHeaderOffset(0);
 
         return $csv;
