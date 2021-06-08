@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use DB;
 use App\Models\School;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
@@ -301,7 +302,7 @@ class ImportSchoolDetails extends Command
      *
      * @var string
      */
-    protected $signature = 'import:schools';
+    protected $signature = 'import:schools {--truncate}';
 
     /**
      * The console command description.
@@ -337,6 +338,10 @@ class ImportSchoolDetails extends Command
      */
     public function handle()
     {
+        if ($this->option('truncate')) {
+            DB::table('schools')->truncate();
+        }
+
         $this->line("Fetching data from {$this->url}...");
 
         $data = $this->fetch($this->url);
