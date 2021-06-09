@@ -5,9 +5,10 @@ namespace App\Http\Livewire;
 use App\Models\School;
 use Livewire\Component;
 
-class SearchBar extends Component
+class SearchContext extends Component
 {
     public $search;
+    public $schools;
 
     protected $rules = [
         'search' => ['required', 'string', 'max:255']
@@ -17,16 +18,11 @@ class SearchBar extends Component
     {
         $this->validate();
 
-        $schools = School::where('name', 'LIKE', "%{$this->search}%")->get();
-
-        dd([
-            'results'   => $schools->count(),
-            'retrieved' => $schools->pluck('name')->toArray(),
-        ]);
+        $this->results = app('schools')->search($this->search);
     }
 
     public function render()
     {
-        return view('livewire.search-bar');
+        return view('livewire.search-context');
     }
 }
